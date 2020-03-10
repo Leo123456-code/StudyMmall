@@ -12,8 +12,7 @@ public interface CartMapper {
     Cart selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Cart record);
-
-
+//
 
     int updateByPrimaryKey(Cart record);
 }
