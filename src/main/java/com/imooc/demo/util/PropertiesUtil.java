@@ -10,6 +10,7 @@ import java.util.Properties;
 
 /**
  * Created by geely
+ * 用来构建ImageHost
  */
 public class PropertiesUtil {
 
@@ -28,6 +29,7 @@ public class PropertiesUtil {
     }
 
     public static String getProperty(String key) {
+        //trim 能避免两边的空格
         String value = props.getProperty(key.trim());
         if (StringUtils.isBlank(value)) {
             return null;

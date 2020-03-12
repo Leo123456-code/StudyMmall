@@ -1,4 +1,4 @@
-package com.imooc.demo.web;
+package com.imooc.demo.web.portal;
 
 import com.imooc.demo.common.Const;
 import com.imooc.demo.common.ResponseCode;
