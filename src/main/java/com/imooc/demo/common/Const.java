@@ -1,6 +1,8 @@
 package com.imooc.demo.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
 /**
  * ClassName: Const
@@ -21,6 +23,18 @@ public class Const {
     public interface Role{
         int ROLE_CUSTOMER = 0 ;//普通用户
         int ROLE_ADMIN = 1 ;//管理员
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public enum ProductStatusEnum{
+        ON_SALE(1,"在售"),
+        ON_PULL(2,"下架"),
+        ;
+
+        private Integer code;
+
+        private String message;
 
     }
 }

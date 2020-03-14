@@ -4,12 +4,15 @@ package com.imooc.demo.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.imooc.demo.common.Const;
 import com.imooc.demo.common.ResponseCode;
 import com.imooc.demo.common.ServerResponse;
 import com.imooc.demo.dao.CategoryMapper;
 import com.imooc.demo.dao.ProductMapper;
 import com.imooc.demo.pojo.Category;
 import com.imooc.demo.pojo.Product;
+import com.imooc.demo.service.IFileService;
 import com.imooc.demo.service.IProductService;
 import com.imooc.demo.util.PropertiesUtil;
 import com.imooc.demo.vo.ProductDetailVo;
@@ -18,10 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * ClassName: ProductServiceImpl
@@ -37,6 +40,8 @@ public class ProductServiceImpl implements IProductService {
     private ProductMapper productMapper;
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private IFileService fileService;
 
     @Override
     public ServerResponse saveOrUpdateProduct(Product product) {
@@ -152,7 +157,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public ServerResponse searshProductListVoPage(Integer productId, String productName, int pageNum, int pageSize) {
+    public ServerResponse searshProductListVoPage( String productName,Integer productId, int pageNum, int pageSize) {
         /**
          * @Description //TODO 根据姓名或productId进行搜素,分页显示
            @Author Leo
@@ -210,6 +215,31 @@ public class ProductServiceImpl implements IProductService {
         log.info("productListVoList={}",productListVoList);
         return ServerResponse.createBySuccess(productListVoList);
     }
+
+    @Override
+    public ServerResponse<ProductDetailVo> getProductDetailVo(Integer productId) {
+        /**
+         * @Description //TODO 前台 商品详情
+           @Author Leo
+         * @Date 6:12 2020/3/13
+         * @Param [productId]
+         * @return com.imooc.demo.common.ServerResponse<com.imooc.demo.vo.ProductDetailVo>
+        */
+        if(productId == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),
+                    ResponseCode.ILLEGAL_ARGUMENT.getMessage());
+        }
+        Product product = productMapper.selectByPrimaryKey(productId);
+        if(product == null){
+            return ServerResponse.createByErrorMessage("商品已下架或删除");
+        }
+        if(product.getStatus() != Const.ProductStatusEnum.ON_SALE.getCode()){
+            return ServerResponse.createByErrorMessage("商品已下架");
+        }
+        ProductDetailVo productDetailVo = assembleProductDetailVo(product);
+        return ServerResponse.createBySuccess(productDetailVo);
+    }
+
 
     //获取ProductListVo
     private ProductListVo assembleProductListVo(Product product) {

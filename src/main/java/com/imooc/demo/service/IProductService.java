@@ -4,6 +4,7 @@ import com.imooc.demo.common.ServerResponse;
 import com.imooc.demo.pojo.Product;
 import com.imooc.demo.vo.ProductDetailVo;
 
+
 /**
  * ClassName: IProductService
  * Description: TODO商品接口层
@@ -21,7 +22,11 @@ public interface IProductService {
     //分页查询所有记录
     ServerResponse getProductListPageHelper(int pageNum,int pageSize);
     //根据姓名或productId进行搜素,分页
-    ServerResponse searshProductListVoPage(Integer productId, String productName, int pageNum, int pageSize);
+    ServerResponse searshProductListVoPage(String productName,Integer productId,int pageNum, int pageSize);
     //根据姓名或productId进行搜素,不分页
     ServerResponse searshProductListVo(String productName,Integer productId);
+    //前台
+    //商品详情
+    ServerResponse<ProductDetailVo> getProductDetailVo(Integer productId);
+
 }
