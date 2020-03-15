@@ -188,7 +188,7 @@
     <include refid="Base_Column_List"/>
     from mmall_product
     <where>
-        status = 1
+      status = 1
       <if test="name != null and name != ''">
         and name like #{name}
       </if>
@@ -197,4 +197,48 @@
       </if>
     </where>
   </select>
+
+  <!--  根据姓名或categoryIdList进行搜素  -->
+  <select id="selectByNameAndCategoryIds" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from mmall_product
+    <where>
+      status = 1
+      <if test="name != null and name != ''">
+        and name like #{name}
+      </if>
+      <if test="categoryIdList != null">
+        and category_id in
+        <foreach collection="categoryIdList" item="item" index="index" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+  <!--  根据姓名或categoryIdList进行搜素  SQL动态排序-->
+  <select id="selectByNameAndCategoryIdsOrderBy" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from mmall_product
+    <where>
+      status = 1
+      <if test="name != null and name != ''">
+        and name like #{name}
+      </if>
+      <if test="categoryIdList != null">
+        and category_id in
+        <foreach collection="categoryIdList" item="item" index="index" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+
+    <if test="orderBy != null and orderBy != '' and orderType != null and orderType != '' ">
+      order by ${orderBy} ${orderType}
+    </if>
+
+
+  </select>
+
 </mapper>

@@ -151,7 +151,7 @@ public class ProductManageController {
         }
         if(userService.checkAdminRole(user).isSuccess()){
             //upload 文件夹名称
-            String path = request.getSession().getServletContext().getRealPath("upload");
+            String path = "d:/upload";
             String targetFileName = fileService.upload(file, path);
 
             String url = PropertiesUtil.getProperty("ftp.server.http.prefix")+ targetFileName;
@@ -185,7 +185,7 @@ public class ProductManageController {
 //        }
         if(userService.checkAdminRole(user).isSuccess()){
             //upload 文件夹名称
-            String path = request.getSession().getServletContext().getRealPath("upload");
+            String path =  "d:/upload";;
             String targetFileName = fileService.upload(file, path);
             if(StringUtils.isBlank(targetFileName)){
                 resultMap.put("success",false);

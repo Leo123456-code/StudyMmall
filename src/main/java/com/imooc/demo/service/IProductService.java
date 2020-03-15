@@ -1,8 +1,10 @@
 package com.imooc.demo.service;
 
+import com.github.pagehelper.PageInfo;
 import com.imooc.demo.common.ServerResponse;
 import com.imooc.demo.pojo.Product;
 import com.imooc.demo.vo.ProductDetailVo;
+import com.imooc.demo.vo.ProductListVo;
 
 
 /**
@@ -28,5 +30,9 @@ public interface IProductService {
     //前台
     //商品详情
     ServerResponse<ProductDetailVo> getProductDetailVo(Integer productId);
+    //搜索
+    ServerResponse<PageInfo<ProductListVo>> qianSearchGetProductproductNameCategory(String productName, Integer categoryId, Integer pageNum, Integer pageSize,String orderBy);
+    //动态SQL 排序  前台搜索
+    ServerResponse<PageInfo<ProductListVo>> qianSearchGetProductproductNameCategoryOrder(String productName, Integer categoryId, Integer pageNum, Integer pageSize,String orderBy,String orderType);
 
 }

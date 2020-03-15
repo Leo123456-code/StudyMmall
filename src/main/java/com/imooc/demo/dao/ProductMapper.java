@@ -21,5 +21,10 @@ public interface ProductMapper {
     List<Product> findAllProductList();
     //根据姓名或productId进行搜素
     List<Product> selcetByNameAndProductId(@Param("name") String productName,@Param("id")Integer productId);
+    //根据姓名或categoryIdList进行搜素
+    List<Product> selectByNameAndCategoryIds(@Param("name") String productName,@Param("categoryIdList") List<Integer> categoryIdList);
+    //根据姓名或categoryIdList进行搜素 SQL进行动态排序
+    List<Product> selectByNameAndCategoryIdsOrderBy(@Param("name") String productName,@Param("categoryIdList") List<Integer> categoryIdList,@Param("orderBy") String orderBy,@Param("orderType")String orderType);
+
 
 }

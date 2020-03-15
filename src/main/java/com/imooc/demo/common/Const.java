@@ -1,8 +1,12 @@
 package com.imooc.demo.common;
 
+
+import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+
+import java.util.Set;
 
 /**
  * ClassName: Const
@@ -25,6 +29,13 @@ public class Const {
         int ROLE_ADMIN = 1 ;//管理员
     }
 
+    //排序
+    public interface ProductListOrderBy{
+        Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc","price_asc");
+        Set<String> UPDATETIME_ASC_DESC = Sets.newHashSet("update_time_desc","update_time_asc");
+    }
+
+
     @Getter
     @AllArgsConstructor
     public enum ProductStatusEnum{
@@ -37,4 +48,6 @@ public class Const {
         private String message;
 
     }
+
+
 }
