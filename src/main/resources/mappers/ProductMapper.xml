@@ -237,8 +237,6 @@
     <if test="orderBy != null and orderBy != '' and orderType != null and orderType != '' ">
       order by ${orderBy} ${orderType}
     </if>
-
-
   </select>
 
 </mapper>

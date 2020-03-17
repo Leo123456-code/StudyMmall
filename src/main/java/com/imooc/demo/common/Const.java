@@ -31,8 +31,18 @@ public class Const {
 
     //排序
     public interface ProductListOrderBy{
+        //价格排序
         Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc","price_asc");
+        //修改时间排序
         Set<String> UPDATETIME_ASC_DESC = Sets.newHashSet("update_time_desc","update_time_asc");
+    }
+
+    public interface Cart{
+        int CHECKED = 1;//购物车选中状态
+        int UN_CHECKED = 0;//购物车未选中状态
+
+        String LIMIT_NUM_FAIL = "LIMIT_NUM_FAIL";//库存不够
+        String LIMIT_NUM_SUCCESS = "LIMIT_NUM_SUCCESS";//库存充足
     }
 
 

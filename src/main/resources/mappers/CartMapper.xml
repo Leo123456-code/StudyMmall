@@ -28,8 +28,8 @@
       quantity, checked, create_time, 
       update_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, 
-      #{quantity,jdbcType=INTEGER}, #{checked,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{quantity,jdbcType=INTEGER}, #{checked,jdbcType=INTEGER}, now(),
+      now())
   </insert>
   <insert id="insertSelective" parameterType="com.imooc.demo.pojo.Cart">
     insert into mmall_cart
@@ -99,7 +99,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -114,4 +114,72 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+<!--  //根据userId 和 productId查询购物车 -->
+  <select id="selectCartByUserIdAndProductId" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmall_cart
+    where user_id = #{userId,jdbcType=INTEGER}
+    and
+    product_id = #{productId,jdbcType=INTEGER}
+  </select>
+<!--  根据userId 查询购物车 -->
+  <select id="selectCartByUserId" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmall_cart
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+<!--根据userId 和 productId查询购物车集合   -->
+  <select id="selectListByUserIdAndProductId" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmall_cart
+    where user_id = #{userId,jdbcType=INTEGER}
+    and
+    product_id = #{productId,jdbcType=INTEGER}
+  </select>
+<!--根据userId查询有没有未勾选 -->
+  <select id="selectCartProductCheckedStatusByUserId" parameterType="map" resultType="int">
+    select
+    count(1)
+    from mmall_cart
+    where checked = 0
+    and
+    user_id = #{userId,jdbcType=INTEGER}
+  </select>
+<!-- 删除购物车商品根据userId和productIds   -->
+  <delete id="deleteByUserIdProductIds" parameterType="map">
+    delete from mmall_cart
+    where user_id = #{userId,jdbcType=INTEGER}
+    <if test="productIdList != null">
+      and product_id in
+      <foreach collection="productIdList" item="item" index="index" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+<!-- 全选或全不选  -->
+  <update id="checkOrUnchechedProduct" parameterType="map">
+update mmall_cart
+set checked = #{checked},
+update_time = now()
+where user_id = #{userId,jdbcType=INTEGER}
+ </update>
+<!-- 单独选,单独反选  -->
+  <update id="checkOneOrUnchechedAll" parameterType="map">
+update mmall_cart
+set checked = #{checked},
+update_time = now()
+where user_id = #{userId,jdbcType=INTEGER}
+and product_id = #{productId,jdbcType=INTEGER}
+ </update>
+<!-- 计算购物车产品的数量   -->
+  <select id="selectCartProductCount" parameterType="int" resultType="int">
+    select
+    IFNULL(sum(quantity),0)
+    from mmall_cart
+    where
+    user_id = #{userId,jdbcType=INTEGER}
+  </select>
 </mapper>

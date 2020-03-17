@@ -55,7 +55,6 @@ public class DateTimeUtil {
         System.out.println(DateTimeUtil.dateToStr(new Date(),"yyyy-MM-dd HH:mm:ss"));
         System.out.println(DateTimeUtil.strToDate("2020-03-11 22:29:00",
                 "yyyy-MM-dd HH:mm:ss"));
-
     }
 
 
