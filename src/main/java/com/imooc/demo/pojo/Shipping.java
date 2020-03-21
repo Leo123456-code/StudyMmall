@@ -1,7 +1,6 @@
 package com.imooc.demo.pojo;
 
 import lombok.Data;
-
 import java.util.Date;
 @Data
 public class Shipping {

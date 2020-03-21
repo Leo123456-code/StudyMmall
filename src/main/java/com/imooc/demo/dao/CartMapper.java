@@ -34,5 +34,7 @@ public interface CartMapper {
     int checkOneOrUnchechedAll(@Param("userId") Integer userId,@Param("productId") Integer productId,@Param("checked") Integer checked);
     //计算购物车产品的数量
     int selectCartProductCount(Integer userId);
+    //从购物车获取已经勾选的商品
+    List<Cart> selectCheckCartByUserId(@Param("userId")Integer userId);
 
 }

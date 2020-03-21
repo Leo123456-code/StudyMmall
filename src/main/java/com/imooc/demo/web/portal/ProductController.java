@@ -34,7 +34,7 @@ public class ProductController {
 
     //前端搜素结果展示
     @RequestMapping("search_keyword.do")
-    public ServerResponse<PageInfo<ProductListVo>> qianSearch(@RequestParam(value = "productName",required = false) String productName,
+    public ServerResponse<PageInfo> qianSearch(@RequestParam(value = "productName",required = false) String productName,
                                                               @RequestParam(value = "categoryId",required = false) Integer categoryId,
                                                               @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                                                               @RequestParam(value = "pageSzie",defaultValue = "10") Integer pageSzie,
@@ -44,12 +44,12 @@ public class ProductController {
 
     //前端搜素结果展示 ,动态SQL 排序
     @RequestMapping("search_keyword_order.do")
-    public ServerResponse<PageInfo<ProductListVo>> qianSearchOrderBy(@RequestParam(value = "productName",required = false) String productName,
-                                                              @RequestParam(value = "categoryId",required = false) Integer categoryId,
-                                                              @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                                              @RequestParam(value = "pageSzie",defaultValue = "10") Integer pageSzie,
-                                                              @RequestParam(value = "orderBy",defaultValue = "") String orderBy,
-                                                                     @RequestParam(value = "orderType",defaultValue = "") String orderType){
+    public ServerResponse<PageInfo> qianSearchOrderBy(@RequestParam(value = "productName",required = false) String productName,
+                                                      @RequestParam(value = "categoryId",required = false) Integer categoryId,
+                                                      @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                                      @RequestParam(value = "pageSzie",defaultValue = "10") Integer pageSzie,
+                                                      @RequestParam(value = "orderBy",defaultValue = "") String orderBy,
+                                                      @RequestParam(value = "orderType",defaultValue = "") String orderType){
         return productService.qianSearchGetProductproductNameCategoryOrder(productName,categoryId,pageNum,pageSzie,orderBy,orderType);
     }
 

@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * ClassName: ProductServiceImpl
- * Description: TODO商品接口实现类
+ * Description: TODO 商品接口实现类
  * Author: Leo
  * Date: 2020/3/11-7:09
  * email 1437665365@qq.com
@@ -212,9 +212,9 @@ public class ProductServiceImpl implements IProductService {
          * @return com.imooc.demo.common.ServerResponse
          */
         //StringUtils.isNotBlank(productName) 等同于 productName !=null && productName !=""
-//        if(StringUtils.isNotBlank(productName)){
-//            productName = new StringBuilder().append("%").append(productName).append("%").toString();
-//        }
+        if(StringUtils.isNotBlank(productName)){
+            productName = new StringBuilder().append("%").append(productName).append("%").toString();
+        }
         if (productName != null || productName != "") {
             productName = new StringBuilder().append("%").append(productName).append("%").toString();
         }
@@ -287,7 +287,7 @@ public class ProductServiceImpl implements IProductService {
 
 
     @Override
-    public ServerResponse<PageInfo<ProductListVo>> qianSearchGetProductproductNameCategory(String productName, Integer categoryId, Integer pageNum, Integer pageSize, String orderBy) {
+    public ServerResponse<PageInfo> qianSearchGetProductproductNameCategory(String productName, Integer categoryId, Integer pageNum, Integer pageSize, String orderBy) {
         /**
          * @Description //TODO 前台搜索,分页显示
          @Author Leo
@@ -347,10 +347,12 @@ public class ProductServiceImpl implements IProductService {
         PageInfo pageInfo = new PageInfo(productList);
         pageInfo.setList(productListVoList);
         return ServerResponse.createBySuccess(pageInfo);
+
     }
 
+
     @Override
-    public ServerResponse<PageInfo<ProductListVo>> qianSearchGetProductproductNameCategoryOrder(String productName, Integer categoryId, Integer pageNum, Integer pageSize, String orderBy,String orderType) {
+    public ServerResponse<PageInfo> qianSearchGetProductproductNameCategoryOrder(String productName, Integer categoryId, Integer pageNum, Integer pageSize, String orderBy, String orderType) {
         /**
          * @Description //TODO 前台搜索 利用SQL进行动态排序
          @Author Leo
@@ -373,6 +375,7 @@ public class ProductServiceImpl implements IProductService {
                 PageInfo pageInfo = new PageInfo(productListVoList);
                 return ServerResponse.createBySuccess(pageInfo);
             }
+
             //递归查询子节点的categoryId信息
             categoryIdList = categoryService.getCategoryAndDeepChildrenCategoryId(category.getId()).getData();
         }

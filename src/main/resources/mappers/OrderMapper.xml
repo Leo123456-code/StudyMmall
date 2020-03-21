@@ -41,7 +41,7 @@
       #{shippingId,jdbcType=INTEGER}, #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, 
       #{postage,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{paymentTime,jdbcType=TIMESTAMP}, 
       #{sendTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.imooc.demo.pojo.Order">
     insert into mmall_order
@@ -174,7 +174,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -196,4 +196,43 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+<!--  根据userId和orderNo查询订单 -->
+  <select id="selectByUserIdAndOrderNo" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmall_order
+    where user_id = #{userId,jdbcType=INTEGER}
+    and
+    order_no = #{orderNo,jdbcType=BIGINT}
+  </select>
+<!--  根据userId和orderNo查询订单 -->
+  <select id="selectByUserIdAndOrderNoCount" parameterType="map" resultType="int">
+    select
+    count(1)
+    from mmall_order
+    where user_id = #{userId,jdbcType=INTEGER}
+    and
+    order_no = #{orderNo,jdbcType=BIGINT}
+  </select>
+<!-- 根据orderNo查询订单  -->
+  <select id="selectByOrderNo" parameterType="long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmall_order
+    where
+    order_no = #{orderNo,jdbcType=BIGINT}
+  </select>
+<!--  根据userId查询所有的订单 -->
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List" />
+    from mmall_order
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+<!--  后台查询所有 -->
+  <select id="selectAllOrder" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmall_order
+  </select>
 </mapper>

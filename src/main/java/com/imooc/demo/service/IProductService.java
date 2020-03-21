@@ -31,8 +31,8 @@ public interface IProductService {
     //商品详情
     ServerResponse<ProductDetailVo> getProductDetailVo(Integer productId);
     //搜索
-    ServerResponse<PageInfo<ProductListVo>> qianSearchGetProductproductNameCategory(String productName, Integer categoryId, Integer pageNum, Integer pageSize,String orderBy);
+    ServerResponse<PageInfo> qianSearchGetProductproductNameCategory(String productName, Integer categoryId, Integer pageNum, Integer pageSize,String orderBy);
     //动态SQL 排序  前台搜索
-    ServerResponse<PageInfo<ProductListVo>> qianSearchGetProductproductNameCategoryOrder(String productName, Integer categoryId, Integer pageNum, Integer pageSize,String orderBy,String orderType);
+    ServerResponse<PageInfo> qianSearchGetProductproductNameCategoryOrder(String productName, Integer categoryId, Integer pageNum, Integer pageSize, String orderBy, String orderType);
 
 }

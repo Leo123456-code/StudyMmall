@@ -161,4 +161,37 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+<!--  根据userId 和orderNo查询 -->
+  <select id="getByOrderNOAndUserId" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmall_order_item
+    where user_id = #{userId,jdbcType=INTEGER}
+    and
+    order_no = #{orderNo,jdbcType=BIGINT}
+  </select>
+<!--  批量插入 -->
+  <insert id="bachInsert" parameterType="list">
+       insert into mmall_order_item (order_no,user_id, product_id,
+       product_name, product_image, current_unit_price,
+       quantity, total_price, create_time,
+       update_time)
+       values
+       <foreach collection="orderItemList" index="index" item="item" separator=",">
+
+        (#{item.orderNo},#{item.userId},#{item.productId},#{item.productName},
+        #{item.productImage},#{item.currentUnitPrice},#{item.quantity},
+        #{item.totalPrice},now(),now())
+
+       </foreach>
+
+  </insert>
+  <!--  根据orderNo查询 -->
+  <select id="getByOrderNo" parameterType="long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmall_order_item
+    where
+    order_no = #{orderNo,jdbcType=BIGINT}
+  </select>
 </mapper>

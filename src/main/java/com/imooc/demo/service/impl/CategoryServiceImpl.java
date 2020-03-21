@@ -168,7 +168,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
         //排序
         List<Category> list = new ArrayList<>(categorySet);
-        Collections.sort(list,(o1,o2)->{
+        Collections.sort(list,(o1, o2) -> {
             return o1.getId()-o2.getId();
         });
         log.info("categorySet={}",list);
