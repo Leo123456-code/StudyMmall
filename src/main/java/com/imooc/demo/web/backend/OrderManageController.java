@@ -52,7 +52,7 @@ public class OrderManageController {
 
     //商品详情
     @RequestMapping("datail.do")
-    public ServerResponse orderDetail(HttpSession session,long orderNo){
+    public ServerResponse orderDetail(HttpSession session,Long orderNo){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if(user == null){
             ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),

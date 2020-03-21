@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.imooc.demo.common.Const;
+import com.imooc.demo.common.ResponseCode;
 import com.imooc.demo.common.ServerResponse;
 import com.imooc.demo.dao.*;
 import com.imooc.demo.pojo.*;
@@ -24,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -100,7 +100,7 @@ public class OrderServiceImpl implements IOrderService {
             //清空购物车
             cleanCart(cartList);
         }catch (Exception e){
-           log.error("异常",e);
+           log.error("清空购物车异常",e);
            throw e;
         }
         OrderVo orderVo = assembleOrderVo(order,orderItemList);
@@ -147,7 +147,8 @@ public class OrderServiceImpl implements IOrderService {
         //从购物车中获取数据
         List<Cart> cartList = cartMapper.selectCheckCartByUserId(userId);
         ServerResponse serverResponse = getCartOrderItem(userId, cartList);
-        if(serverResponse.isSuccess()){
+        //如果不成功,将错误返回
+        if(!serverResponse.isSuccess()){
             return serverResponse;
         }
         List<OrderItem> orderItemList = (List<OrderItem>) serverResponse.getData();
@@ -155,6 +156,9 @@ public class OrderServiceImpl implements IOrderService {
         List<OrderItemVo> orderItemVoList = Lists.newArrayList();
         //计算已经选中的购物车商品总价
         BigDecimal payment = new BigDecimal(0);
+        if( orderItemList == null || orderItemList.size() <= 0){
+            return ServerResponse.createBySuccess(orderItemList);
+        }
         for (OrderItem orderItem : orderItemList) {
             payment = BigDecimalUtil.add(payment.doubleValue(),orderItem.getTotalPrice().doubleValue());
             orderItemVoList.add(assembleOrderItemVo(orderItem));
@@ -262,7 +266,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ServerResponse<String> manageSendGoods(Long orderNo) {
+    public ServerResponse manageSendGoods(Long orderNo) {
         /**
          * @Description //TODO 后台发货
            @Author Leo
@@ -271,16 +275,23 @@ public class OrderServiceImpl implements IOrderService {
          * @return com.imooc.demo.common.ServerResponse<java.lang.String>
         */
         Order order = orderMapper.selectByOrderNo(orderNo);
-        if(order != null){
-            if(order.getStatus() == Const.OrderStatusEnum.PAID.getCode()){
-                //把状态改成已发货
-              order.setStatus(Const.OrderStatusEnum.SHIPPING.getCode());
-              order.setSendTime(new Date());
-              orderMapper.updateByPrimaryKeySelective(order);
-              return ServerResponse.createBySuccess("发货成功");
-            }
+        if(order == null){
+            return ServerResponse.createByErrorMessage("订单不存在");
         }
-        return ServerResponse.createByErrorMessage("订单不存在");
+        log.info("order={}",gson.toJson(order));
+        if(order.getStatus() == Const.OrderStatusEnum.PAID.getCode()){
+            //把状态改成已发货
+            order.setStatus(Const.OrderStatusEnum.SHIPPING.getCode());
+            order.setSendTime(new Date());
+            int rowCount = orderMapper.updateByPrimaryKeySelective(order);
+            if(rowCount == 0){
+                return ServerResponse.createByErrorMessage("未付款,不能发货");
+            }
+            return ServerResponse.createBySuccess("发货成功");
+        }else {
+            return ServerResponse.createByErrorCodeMessageOf(ResponseCode.ERROR.getCode(),
+                    "修改发货状态失败"+",商品状态码status="+order.getStatus());
+        }
     }
 
     //构建OrderVoList
@@ -440,6 +451,9 @@ public class OrderServiceImpl implements IOrderService {
             //总价=数量*单价
             orderItem.setTotalPrice(BigDecimalUtil.mul(product.getPrice().doubleValue(),cartItem.getQuantity()));
             orderItemList.add(orderItem);
+
+
+
         }
         return ServerResponse.createBySuccess(orderItemList);
     }

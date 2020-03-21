@@ -24,7 +24,7 @@ public class OrderVo {
 
     private String paymentTypeDesc;
     //运费
-    private Integer postage;
+    private Double postage;
 
     private Integer status;
 
@@ -47,5 +47,6 @@ public class OrderVo {
     private Integer shippingId;
     //收货地址详情
     private ShippingVo shippingVo;
+
     private String receiverName;
 }

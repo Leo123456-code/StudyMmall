@@ -3,7 +3,6 @@ package com.imooc.demo.common;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
-
 import java.io.Serializable;
 
 /**
@@ -47,6 +46,8 @@ public class ServerResponse<T> implements Serializable {
         this.data = data;
     }
 
+
+
     /**
      * @Description //成功返回的状态
        @Author Leo
@@ -73,9 +74,13 @@ public class ServerResponse<T> implements Serializable {
         return new ServerResponse(ResponseCode.SUCCESS.getCode(),data);
     }
 
+
     public static<T> ServerResponse<T> createBySuccess(String msg,T data){
         return new ServerResponse(ResponseCode.SUCCESS.getCode(),msg,data);
     }
+
+
+
     //失败
     public static <T> ServerResponse<T> createByError(){
         return new ServerResponse<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage());
@@ -89,6 +94,11 @@ public class ServerResponse<T> implements Serializable {
         return new ServerResponse<>(errorCode,errorCodeMessage);
     }
 
+    public static<T> ServerResponse createByErrorCodeMessageOf(Integer code,String msg) {
+        return new ServerResponse(ResponseCode.ERROR.getCode(),msg);
+    }
 
-
+    public static<T> ServerResponse createByError(ResponseCode error, String msg) {
+        return new ServerResponse(ResponseCode.ERROR.getCode(),msg);
+    }
 }

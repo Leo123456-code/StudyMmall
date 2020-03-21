@@ -107,6 +107,10 @@ public class CategoryServiceImpl implements ICategoryService {
                 categoryIdList.add(categoryItem.getId());
             }
         }
+        //排序
+        Collections.sort(categoryIdList,(o1,o2)->{
+            return o1-o2;
+        });
         return ServerResponse.createBySuccess(categoryIdList);
     }
 

@@ -20,7 +20,7 @@ public class Order {
     //'支付类型,1-在线支付',
     private Integer paymentType;
     //'运费,单位是元',
-    private Integer postage;
+    private Double postage;
     //订单状态:0-已取消-10-未付款，20-已付款，40-已发货，50-交易成功，60-交易关闭',
     private Integer status;
     //'支付时间',
