@@ -104,8 +104,9 @@ public class OrderPayServiceImpl implements IOrderPayService {
         ExtendParams extendParams = new ExtendParams();
         extendParams.setSysServiceProviderId("2088100200300400500");
 
+
         // 支付超时，定义为120分钟
-        String timeoutExpress = "1200m";
+        String timeoutExpress = "120m";
 
         // 商品明细列表，需填写购买商品详细信息，
         List<GoodsDetail> goodsDetailList = new ArrayList<GoodsDetail>();
@@ -152,14 +153,8 @@ public class OrderPayServiceImpl implements IOrderPayService {
                 String qrPath = String.format(path+"/qr-%s.png", response.getOutTradeNo());
                 String qrFileName = String.format("qr-%s.png", response.getOutTradeNo());
                 //将内容contents生成长宽均为width的图片，图片路径由imgPath指定
-                String  qrCode = response.getQrCode();
                 // "qr_code":"https:\/\/qr.alipay.com\/bax03610h23yu9t1fezb0063"  =>
                 // "qr_code":"https://qr.alipay.com/bax03610h23yu9t1fezb0063"
-
-
-                log.info("qr_code  dgsh:{}",
-                        qrCode.replaceAll("/","dsfjhs"));
-                response.setQrCode("https://qr.alipay.com/bax03610h23yu9t1fezb0063");
                 ZxingUtils.getQRCodeImge(response.getQrCode(),1024,qrPath);
                 log.info("reponse:{}",response);
 

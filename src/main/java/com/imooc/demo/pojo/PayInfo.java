@@ -2,6 +2,7 @@ package com.imooc.demo.pojo;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 @Data
 public class PayInfo {
@@ -11,6 +12,8 @@ public class PayInfo {
     private Integer userId;
     //'订单号',
     private Long orderNo;
+    //支付金额
+    private BigDecimal payAmount;
     //'支付平台:1-支付宝,2-微信',
     private Integer payPlatform;
     //'支付宝支付流水号',
@@ -21,6 +24,7 @@ public class PayInfo {
     private Date createTime;
     //更新时间'
     private Date updateTime;
+
 
     public Integer getId() {
         return id;
@@ -44,6 +48,14 @@ public class PayInfo {
 
     public void setOrderNo(Long orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public BigDecimal getPayAmount() {
+        return payAmount;
+    }
+
+    public void setPayAmount(BigDecimal payAmount) {
+        this.payAmount = payAmount;
     }
 
     public Integer getPayPlatform() {
@@ -84,5 +96,15 @@ public class PayInfo {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public PayInfo() {
+    }
+
+    public PayInfo(Long orderNo, BigDecimal payAmount, Integer payPlatform, String platformStatus) {
+        this.orderNo = orderNo;
+        this.payAmount = payAmount;
+        this.payPlatform = payPlatform;
+        this.platformStatus = platformStatus;
     }
 }

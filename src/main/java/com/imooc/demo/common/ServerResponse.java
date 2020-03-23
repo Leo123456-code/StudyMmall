@@ -101,4 +101,5 @@ public class ServerResponse<T> implements Serializable {
     public static<T> ServerResponse createByError(ResponseCode error, String msg) {
         return new ServerResponse(ResponseCode.ERROR.getCode(),msg);
     }
+
 }

@@ -1,7 +1,6 @@
 package com.imooc.demo.service;
 
 import com.imooc.demo.common.ServerResponse;
-import com.imooc.demo.pojo.PayInfo;
 
 /**
  * ClassName: IOrderService

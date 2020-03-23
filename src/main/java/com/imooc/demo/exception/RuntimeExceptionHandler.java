@@ -20,7 +20,8 @@ public class RuntimeExceptionHandler {
     @ResponseBody
     public ServerResponse<Object> handle(RuntimeException e) {
 
-        return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT,e.getMessage());
+        return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT,
+                e.getMessage());
     }
 
 }

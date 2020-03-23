@@ -126,7 +126,9 @@
   </select>
 
   <select id="selectALL" resultType="com.imooc.demo.pojo.Category">
-    select * from mmall_category
+    select
+    <include refid="Base_Column_List" />
+     from mmall_category
   </select>
 
 

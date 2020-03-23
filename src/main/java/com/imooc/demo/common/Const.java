@@ -91,6 +91,7 @@ public class Const {
         private Integer code;
 
         private String message;
+
     }
 
     //支付方式
